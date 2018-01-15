@@ -17,7 +17,7 @@ func GetUserRelations(w http.ResponseWriter, r *http.Request) {
     var err error
     if userId, err = strconv.Atoi(vars["user_id"]); err != nil {
         log.Print(err)
-        JsonResp(w, http.StatusInternalServerError, err.Error())
+        JsonResp(w, http.StatusUnprocessableEntity, err.Error())
         return
     }
     db := GetDb()
@@ -40,12 +40,12 @@ func SetUserRelation(w http.ResponseWriter, r *http.Request) {
     var err error
     if userId, err = strconv.Atoi(vars["user_id"]); err != nil {
         log.Print(err)
-        JsonResp(w, http.StatusInternalServerError, err.Error())
+        JsonResp(w, http.StatusUnprocessableEntity, err.Error())
         return
     }
     if otherUserId, err = strconv.Atoi(vars["other_user_id"]); err != nil {
         log.Print(err)
-        JsonResp(w, http.StatusInternalServerError, err.Error())
+        JsonResp(w, http.StatusUnprocessableEntity, err.Error())
         return
     }
     if userId == otherUserId {
