@@ -6,26 +6,15 @@ import (
 )
 
 var db *pg.DB
-var mutex *sync.Mutex
-
-func init() {
-    mutex = new(sync.Mutex)
-}
+var once sync.Once
 
 func GetDb() *pg.DB {
-    if db != nil {
-        return db
-    }
-    mutex.Lock()
-    defer mutex.Unlock()
-    if db != nil {
-        return db
-    }
-    db = pg.Connect(&pg.Options{
-        User: "postgres",
-        Password: "123456",
-        Database: "test",
+    once.Do(func() {
+        db = pg.Connect(&pg.Options{
+            User: "postgres",
+            Password: "123456",
+            Database: "test",
+        })
     })
-
     return db
 }
